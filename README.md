@@ -3,10 +3,16 @@
 
 # TODO
 
-## Version 0.0.3
-- [ ] Put sample value in Redis
+## Version 0.0.5
+- [ ] Read sample value from Redis
+
+## Version 0.0.4
+- [ ] Add tests for .NET project
 
 # RELEASE NOTES
+
+## Version 0.0.3
+- [X] Put sample value in Redis
 
 ## Version 0.0.2
 - [X] Add Redis to server
