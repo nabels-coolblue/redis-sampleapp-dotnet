@@ -4,4 +4,4 @@
 
 ## Version 0.0.1
 
-Skeleton project, Vagrantfile + scripts
+- [ ] Skeleton project, Vagrantfile + scripts
