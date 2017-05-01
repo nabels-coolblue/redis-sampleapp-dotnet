@@ -2,11 +2,11 @@
 
 echo "running server provisioning"
 
-# Got this from https://gist.github.com/helloIAmPau/8149357#file-vagrantfile-L10-L15
-
-sudo apt-get install -y redis-server
-sudo cp /etc/redis/redis.conf /etc/redis/redis.conf.old
-sudo cat /etc/redis/redis.conf.old | grep -v bind > /etc/redis/redis.conf
-echo "bind 0.0.0.0" >> /etc/redis/redis.conf
-sudo update-rc.d redis-server defaults
-sudo /etc/init.d/redis-server start
+which redis-server 2>/dev/null || {
+  export DEBIAN_FRONTEND=noninteractive
+  apt-get update
+  apt-get install -y redis-server
+  sed -i 's/bind.*/bind 0.0.0.0/' /etc/redis/redis.conf
+  update-rc.d redis-server defaults
+}
+/etc/init.d/redis-server restart 2>/dev/null
