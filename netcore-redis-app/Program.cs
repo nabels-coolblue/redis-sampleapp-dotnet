@@ -3,7 +3,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
-using StackExchange.Redis;
 
 namespace netcore_redis_app
 {
@@ -27,7 +26,7 @@ namespace netcore_redis_app
                 Console.WriteLine($"Setting ['{key}'] to: '{value}'");
                 cache.Set(key, Encoding.UTF8.GetBytes(value), new DistributedCacheEntryOptions());
             }
-            catch (RedisConnectionException e)
+            catch (StackExchange.Redis.RedisConnectionException e)
             {
                 Console.WriteLine("[FATAL] Exception occured when connecting to Redis.");
                 Console.WriteLine($"Please check whether the specified host {REDIS_HOST}:{REDIS_PORT} is up and running by running:");
