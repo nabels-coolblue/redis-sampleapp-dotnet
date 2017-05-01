@@ -3,11 +3,13 @@
 
 # TODO
 
-## Version 0.0.2
-
-- [ ] Add Redis to server
+## Version 0.0.3
+- [X] Put sample value in Redis
 
 # RELEASE NOTES
+
+## Version 0.0.2
+- [X] Add Redis to server
 
 ## Version 0.0.1
 
