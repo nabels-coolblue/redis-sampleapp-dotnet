@@ -7,6 +7,8 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox"
   config.vm.define "server" do |server|
     server.vm.provision "shell", path: "scripts/server.sh"
+    server.vm.hostname = "server"
+    server.vm.network "private_network", ip: "192.168.56.11"
   end
   config.vm.define "client1" do |client|
     client.vm.provision "shell", path: "scripts/client.sh"
