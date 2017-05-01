@@ -3,6 +3,12 @@
 
 # TODO
 
+## Version 0.0.2
+
+- [ ] Add Redis to server
+
+# RELEASE NOTES
+
 ## Version 0.0.1
 
-- [ ] Skeleton project, Vagrantfile + scripts
+- [X] Skeleton project, Vagrantfile + scripts
