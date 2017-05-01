@@ -19,4 +19,15 @@ else
 fi
 
 
+# test dotnet
+
+if [ -d /vagrant/test/${HOSTNAME} ]; then
+  pushd /vagrant/test/${HOSTNAME}
+else
+  mkdir -p /vagrant/test/${HOSTNAME}
+  pushd /vagrant/test/${HOSTNAME}
+  dotnet new console
+fi
+dotnet restore
+dotnet run
 
