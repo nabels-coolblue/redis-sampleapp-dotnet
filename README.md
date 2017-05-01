@@ -4,7 +4,7 @@
 # TODO
 
 ## Version 0.0.3
-- [X] Put sample value in Redis
+- [ ] Put sample value in Redis
 
 # RELEASE NOTES
 
