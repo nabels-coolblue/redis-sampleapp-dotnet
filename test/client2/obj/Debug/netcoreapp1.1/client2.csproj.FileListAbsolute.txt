@@ -1,0 +1,8 @@
+/vagrant/test/client2/bin/Debug/netcoreapp1.1/client2.deps.json
+/vagrant/test/client2/bin/Debug/netcoreapp1.1/client2.runtimeconfig.json
+/vagrant/test/client2/bin/Debug/netcoreapp1.1/client2.runtimeconfig.dev.json
+/vagrant/test/client2/bin/Debug/netcoreapp1.1/client2.dll
+/vagrant/test/client2/bin/Debug/netcoreapp1.1/client2.pdb
+/vagrant/test/client2/obj/Debug/netcoreapp1.1/client2.AssemblyInfo.cs
+/vagrant/test/client2/obj/Debug/netcoreapp1.1/client2.dll
+/vagrant/test/client2/obj/Debug/netcoreapp1.1/client2.pdb
