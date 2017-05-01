@@ -10,7 +10,7 @@
 
 ## Version 0.0.2
 - [X] Add Redis to server
+- [X] Add Redis to client
 
 ## Version 0.0.1
-
 - [X] Skeleton project, Vagrantfile + scripts
