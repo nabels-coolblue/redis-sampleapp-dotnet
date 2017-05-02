@@ -3,8 +3,11 @@
 
 # TODO
 
-## Version 0.0.5
+## Version 0.0.6
 - [ ] Read sample value from Redis
+
+## Version 0.0.5
+- [ ] Add teamcity
 
 ## Version 0.0.4
 - [ ] Add tests for .NET project
