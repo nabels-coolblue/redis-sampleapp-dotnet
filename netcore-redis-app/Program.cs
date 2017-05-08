@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Redis;
+using ServiceStack.Redis;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace netcore_redis_app
 {
@@ -11,20 +14,75 @@ namespace netcore_redis_app
         private const string REDIS_HOST = "192.168.56.11";
         private const string REDIS_PORT = "6379";
 
-        public static void Main(string[] args)
+        public static async Task DoWork()
         {
-            var key = "myDate";
-            var value = DateTime.Now.ToString();
-            
-            var cache = new RedisCache(new RedisCacheOptions
+            using (var redisManager = new PooledRedisClientManager($"{REDIS_HOST}:{REDIS_PORT}"))
+            using (var redis = redisManager.GetClient())
             {
-                Configuration = $"{REDIS_HOST}:{REDIS_PORT}"
-            });
-            
+                /* Set a key */
+                var value = "hello world";
+                redis.Set("foo", value);
+                Console.WriteLine($"SET: {value}");
+
+                /* Try a GET */
+                var foo = redis.Get<string>("foo");
+                Console.WriteLine($"GET foo: {foo}");
+
+                /* Create a list of numbers, from 0 to 4 */
+                redis.Remove("mylist");
+
+                var tasks = new List<Task>();
+                for (int i = 0; i < 4; i++)
+                {
+                    tasks.Add(Task.Run(() =>
+                    {
+                        var threadId = Thread.CurrentThread.ManagedThreadId - 4;
+
+                        for (int j = 0; j < 4; j++)
+                        {
+                            lock(redis)
+                            {
+                                redis.PushItemToList("mylist", $"element-t{threadId}-{j}");
+
+                                var counter = redis.Increment("counter", 1);
+                                Console.WriteLine($"INCR counter: {counter} from thread: {threadId}");
+                            }
+                        }
+                    }));
+                }
+                var t = Task.WhenAll(tasks);
+                t.Wait();
+            }
+
+            // /* PING server */
+            // reply = redisCommand(c,"PING");
+            // printf("PING: %s\n", reply->str);
+            // freeReplyObject(reply);
+
+            // /* Set a key */
+            // reply = redisCommand(c,"SET %s %s", "foo", "hello world");
+            // printf("SET: %s\n", reply->str);
+            // freeReplyObject(reply);
+
+            // /* Try a GET */
+            // reply = redisCommand(c,"GET foo");
+            // printf("GET foo: %s\n", reply->str);
+            // freeReplyObject(reply);
+
+            // /* Create a list of numbers, from 0 to 4 */
+            // reply = redisCommand(c,"DEL mylist");
+            // freeReplyObject(reply);
+
+            //    var cache = new RedisCache(new RedisCacheOptions
+            //{
+            //    Configuration = $"{REDIS_HOST}:{REDIS_PORT}"
+            //});
+
             try
             {
-                Console.WriteLine($"Setting ['{key}'] to: '{value}'");
-                cache.Set(key, Encoding.UTF8.GetBytes(value), new DistributedCacheEntryOptions());
+                //cache.
+                //Console.WriteLine($"Setting ['{key}'] to: '{value}'");
+                //cache.Set(key, Encoding.UTF8.GetBytes(value), new DistributedCacheEntryOptions());
             }
             catch (StackExchange.Redis.RedisConnectionException e)
             {
@@ -36,9 +94,20 @@ namespace netcore_redis_app
             }
             catch (Exception e)
             {
-                Console.WriteLine("[FATAL] Generic Exception occured when writing a value to Redis, reason unknown.");
+                Console.WriteLine("[FATAL] Generic Exception occurred when writing a value to Redis, reason unknown.");
                 Console.WriteLine(e.ToString());
             }
+
+            Console.ReadKey();
+        }
+
+        public static void Main(string[] args)
+        {
+            DoWork().Wait();
         }
     }
 }
+
+
+
+
