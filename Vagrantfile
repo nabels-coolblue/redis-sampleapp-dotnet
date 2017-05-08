@@ -20,6 +20,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "client2" do |client|
     client.vm.provision "shell", path: "scripts/client.sh"
     client.vm.provision "shell", path: "scripts/client-test.sh"
+    client.vm.provision "shell", path: "netcore-redis-app/runme.sh"
     client.vm.hostname = "client2"
     client.vm.network "private_network", ip: "192.168.56.13"
   end
