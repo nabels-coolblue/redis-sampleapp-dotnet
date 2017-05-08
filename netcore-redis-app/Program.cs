@@ -16,6 +16,11 @@ namespace netcore_redis_app
 
         public static void Main(string[] args)
         {
+            DoWork().Wait();
+        }
+
+        private static async Task DoWork()
+        {
             try
             {
                 using (var redisManager = new PooledRedisClientManager($"{REDIS_HOST}:{REDIS_PORT}") { ConnectTimeout = 500 })
@@ -34,7 +39,7 @@ namespace netcore_redis_app
                     redis.Remove("mylist");
 
                     var tasks = new List<Task>();
-                    for (int i = 0; i < 4; i++)
+                    for (int i = 0; i <= 4; i++)
                     {
                         tasks.Add(Task.Run(() =>
                         {
@@ -52,8 +57,7 @@ namespace netcore_redis_app
                             }
                         }));
                     }
-                    var t = Task.WhenAll(tasks);
-                    t.Wait();
+                    await Task.WhenAll(tasks);
 
                     /* Let's check what we have inside the list */
                     var list = redis.GetRangeFromList("mylist", 0, -1);
